@@ -17,7 +17,7 @@
             height: 100vh;
         }
         canvas{
-            background-color: azure;
+            border:3px solid chocolate;
         }
     </style>
 </head>
@@ -26,15 +26,67 @@
     <canvas id="canvas"></canvas>
 
     <script>
+
+        /*Take canvas element */
         const canvas = document.getElementById('canvas');
+
+        /*Write context 2d to canvas */
         const ctx = canvas.getContext('2d');
 
+        /*Set size of canvas */
         canvas.width = 1000;
         canvas.height = 500;
 
         const cnw = canvas.width;
         const cnh = canvas.height;
 
+        /*Size of paddles */
+        const puddleWidth = 20;
+        const puddleHeight = 100;
+
+        const playerX = 70;
+        const aiX = 910;
+
+        let playerY = 200;
+        let aiY = 200;
+
+        function player() {
+            ctx.fillStyle = "#334455";
+            ctx.fillRect(playerX,playerY,puddleWidth,puddleHeight);
+        }
+
+        function AI() {
+            ctx.fillStyle = "#112233";
+            ctx.fillRect(aiX,aiY,puddleWidth,puddleHeight);
+        }
+
+        /*Size of the ball */
+        const ballSize = 20;
+        let ballX = cnw/2 - ballSize / 2;
+        let ballY = cnh/2 - ballSize / 2;
+
+        function ball() {
+            /*Write default ball */
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(ballX,ballY,ballSize,ballSize);
+        }
+        
+        function table() {
+            /*Fill background */
+            ctx.fillStyle = "#333333";
+            ctx.fillRect(0,0,cnw,cnh);
+
+            /*Paint square on center */
+            ctx.fillStyle = "chocolate";
+            for(var line = 5; line < cnh; line += 20){
+                ctx.fillRect(500,line,6,7);
+            }
+        }
+
+        table();
+        ball();
+        player();
+        AI();
 
 
     </script>
