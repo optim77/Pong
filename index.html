@@ -50,6 +50,12 @@
         let playerY = 200;
         let aiY = 200;
 
+        const lineWidth = 6;
+        const lineHeight = 16;
+
+        let ballSpeedX = 1;
+        let ballSpeedY = 1;
+
         function player() {
             ctx.fillStyle = "#334455";
             ctx.fillRect(playerX,playerY,puddleWidth,puddleHeight);
@@ -69,6 +75,17 @@
             /*Write default ball */
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(ballX,ballY,ballSize,ballSize);
+
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            if(ballY <=  0 || ballY + ballSize >= cnh){
+                ballSpeedY = -ballSpeedY;
+            }
+
+            if (ballX <= 0 || ballX + ballSize >= cnw){
+                ballSpeedX = - ballSpeedX
+            }
         }
         
         function table() {
@@ -78,16 +95,40 @@
 
             /*Paint square on center */
             ctx.fillStyle = "chocolate";
-            for(var line = 5; line < cnh; line += 20){
-                ctx.fillRect(500,line,6,7);
+            for(let linePosition = 20; linePosition < cnh; linePosition += 30){
+                ctx.fillStyle = "gray";
+                ctx.fillRect(cnw/2 - lineWidth / 2,linePosition,lineWidth,lineHeight);
             }
         }
 
-        table();
-        ball();
-        player();
-        AI();
+        const topCanvas = canvas.offsetTop;
 
+        function playerPosition(e) {
+
+            playerY = e.clientY - topCanvas - puddleHeight / 2;
+
+            if(playerY >= cnh - puddleHeight){
+                playerY = cnh - puddleHeight;
+            }
+
+            if (playerY <= 0){
+                playerY = 0;
+            }
+
+        }
+
+        canvas.addEventListener('mousemove',playerPosition);
+
+        function game() {
+            table();
+            ball();
+            player();
+            AI();
+        }
+
+
+
+        setInterval(game,1000 / 60);
 
     </script>
 
